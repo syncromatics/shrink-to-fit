@@ -1,0 +1,25 @@
+{
+  "name": "shrink-to-fit",
+  "version": "0.0.0-development",
+  "description": "Automatically shrink text to fit on a specified number of lines at a specified width.",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/syncromatics/shrink-to-fit.git"
+  },
+  "keywords": [
+    "fit",
+    "text",
+    "shrink",
+    "canvas"
+  ],
+  "author": "Syncromatics Engineering",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/syncromatics/shrink-to-fit/issues"
+  },
+  "homepage": "https://github.com/syncromatics/shrink-to-fit#readme"
+}
