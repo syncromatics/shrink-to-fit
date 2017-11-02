@@ -1,10 +1,9 @@
 {
   "name": "shrink-to-fit",
-  "version": "0.0.0-development",
+  "version": "1.0.0",
   "description": "Automatically shrink text to fit on a specified number of lines at a specified width.",
   "main": "index.js",
   "scripts": {
-    "test": "test"
   },
   "repository": {
     "type": "git",
@@ -21,8 +20,5 @@
   "bugs": {
     "url": "https://github.com/syncromatics/shrink-to-fit/issues"
   },
-  "homepage": "https://github.com/syncromatics/shrink-to-fit#readme",
-  "devDependencies": {
-    "webpack": "^3.8.1"
-  }
+  "homepage": "https://github.com/syncromatics/shrink-to-fit#readme"
 }
