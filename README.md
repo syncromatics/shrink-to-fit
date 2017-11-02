@@ -5,7 +5,8 @@ lines?  Just shrink the font size if you need to, that's simple, right?
 
 With shrink-to-fit, it is!
 
-_Consider a spiffy animated GIF or screenshot here_
+
+![Short demonstration][demo]
 
 ## Quickstart
 
@@ -60,18 +61,6 @@ const settings = { fontFamily: "Helvetica", maxLines: 3 };
 const fittingFontSize = shrinkToFit(text, widthPx, settings);
 ```
 
-## Building
-
-[![Travis](https://img.shields.io/travis/syncromatics/shrink-to-fit.svg)](https://travis-ci.org/syncromatics/shrink-to-fit)
-[![npm](https://img.shields.io/npm/v/shrink-to-fit.svg)](https://www.npmjs.com/package/shrink-to-fit)
-
-You can build `shrinkToFit` using Webpack via npm.  Clone the repository, and then run:
-
-```bash
-$ npm install
-$ npm build
-```
-
 ## Code of Conduct
 
 We are committed to fostering an open and welcoming environment. Please read our [code of conduct](CODE_OF_CONDUCT.md) before participating in or contributing to this project.
@@ -88,3 +77,5 @@ We welcome contributions and collaboration on this project. Please read our [con
 [![GitHub contributors](https://img.shields.io/github/contributors/syncromatics/shrink-to-fit.svg)](https://github.com/syncromatics/shrink-to-fit/graphs/contributors)
 
 This software is made available by Syncromatics Engineering under the MIT license.
+
+[demo]: demo.gif "Short demonstration of shrink-to-fit"
