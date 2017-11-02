@@ -20,8 +20,8 @@ function shrinkToFit(text, widthPx, settings) {
     var defaults = {
         maxLines: 2,
         fontFamily: "sans-serif",
-        startingSize: 90,
-        minSize: 30
+        startingSizePx: 90,
+        minSizePx: 30
     };
     var settings = Object.assign({}, defaults, settings);
 
