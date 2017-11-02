@@ -20,21 +20,57 @@ Then use it to determine font size:
 ```js
 import shrinkToFit from 'shrink-to-fit';
 
-const text = "I am the very model of a modern Major-General. " + \
-             "I've information vegetable, animal, and mineral.";
-const fittingFontSize = shrinkToFit(text);
 
-document.getElementById('text-container').style.fontSize = `${fittingFontSize}px`;
+const target = document.getElementById('text-container');
+const widthPx = target.clientWidth;
+
+const text = "I am the very model of a modern Major-General. " +
+             "I've information vegetable, animal, and mineral.";
+const fittingFontSize = shrinkToFit(text, widthPx);
+
+target.style.fontSize = `${fittingFontSize}px`;
+target.innerText = text;
 ```
 
-### Settings
+## Reference
 
-Available information about the `settings` object would go here.
+The `shrinkToFit` function accepts two required arguments: `text` and `widthPx`.  `text` is a string
+representing the text you want to display.  `widthPx` is the width, in pixels, of the box in which
+you'd like the text to fit.
+
+`shrinkToFit` also accepts a `settings` object as an optional third parameter.  You can specify any
+combination of the following properties of the `settings` object to change the library's behavior,
+or omit the object entirely to accept the defaults:
+
+ * `settings.maxLines` (number) Maximum number of lines to which text should wrap.  Defaults to `2`.
+ * `settings.fontFamily` (string) Font face/family to use.  Defaults to `sans-serif`.
+ * `settings.startingSizePx` (number) Starting font size (in px) to use.  Defaults to `90`.
+ * `settings.minSizePx` (number) Minimum font size (in px) to drop to.  Takes higher priority
+   than maxLines -- i.e. if text can't fit on maxLines lines at minSize, it'll return at minSize
+   anyway.  Defaults to `30`.
+
+For example, to specify that the text's width should be calculated using the font face Helvetica
+and contain at most three lines:
+
+```js
+const text = "I know the kings of England, and I quote the fights historical " +
+             "from Marathon to Waterloo, in order categorical. ";
+const widthPx = 400;
+const settings = { fontFamily: "Helvetica", maxLines: 3 };
+const fittingFontSize = shrinkToFit(text, widthPx, settings);
+```
 
 ## Building
 
 [![Travis](https://img.shields.io/travis/syncromatics/shrink-to-fit.svg)](https://travis-ci.org/syncromatics/shrink-to-fit)
 [![npm](https://img.shields.io/npm/v/shrink-to-fit.svg)](https://www.npmjs.com/package/shrink-to-fit)
+
+You can build `shrinkToFit` using Webpack via npm.  Clone the repository, and then run:
+
+```bash
+$ npm install
+$ npm build
+```
 
 ## Code of Conduct
 
