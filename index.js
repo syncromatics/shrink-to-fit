@@ -10,9 +10,8 @@ module.exports = shrinkToFit;
  * @param {number} [settings.maxLines=2] Maximum number of lines to which text should wrap.
  * @param {string} [settings.fontFamily="sans serif"] Font face/family to use.
  * @param {number} [settings.startingSizePx=90] Starting font size (in px) to use.
- * @param {number} [settings.minSizePx=30] Minimum font size (in px) to drop to.  Takes higher priority
+ * @param {number} [settings.minSizePx=30] Minimum font size (in px) to drop to.  Takes higher priority than maxLines -- i.e. if text can't fit on maxLines lines at minSize, it'll return at minSize anyway.
  * @param {bool} [settings.oneWordLineCheck=false] In some cases, where width is particularly small, it is necessary to account for the size of the largest word in the entire text string. This is a performance hit.
- * than maxLines -- i.e. if text can't fit on maxLines lines at minSize, it'll return at minSize anyway.
  * @returns {number} The font size (in px) to display.
  */
 function shrinkToFit(text, widthPx, settings) {
