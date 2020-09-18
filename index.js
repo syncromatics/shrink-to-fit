@@ -51,13 +51,9 @@ function shrinkToFit(text, widthPx, settings) {
       }
     });
 
-  function checkHeight(size) {
-    let heightMax = size;
-    for (let i = 2; i < words.length + 1; i += 1)
-      if (words.every((w) => w.length) && words.length === i && size * i > heightPx)
-        heightMax = heightPx / i;
-    return heightMax;
-  }
+    function checkHeight(size) {
+      return size * words.length > heightPx ? size / words.length : size;
+    }
 
   fontSizeLoop: for (let fontSize = startingSizePx; fontSize > minSizePx; fontSize -= 1) {
     let numLines = 1;
