@@ -11,6 +11,7 @@ module.exports = shrinkToFit;
  * @param {string} [settings.fontFamily="sans serif"] Font face/family to use.
  * @param {number} [settings.startingSizePx=90] Starting font size (in px) to use.
  * @param {number} [settings.minSizePx=30] Minimum font size (in px) to drop to.  Takes higher priority
+ * @param {bool} [settings.oneWordLineCheck=false] In some cases, where width is particularly small, it is necessary to account for the size of the largest word in the entire text string. This is a performance hit.
  * than maxLines -- i.e. if text can't fit on maxLines lines at minSize, it'll return at minSize anyway.
  * @returns {number} The font size (in px) to display.
  */
@@ -19,18 +20,36 @@ function shrinkToFit(text, widthPx, settings) {
         maxLines: 2,
         fontFamily: "sans-serif",
         startingSizePx: 90,
-        minSizePx: 30
+        minSizePx: 30,
+        oneWordLineCheck: false
     };
-    const { startingSizePx, fontFamily, minSizePx, maxLines } = { ...defaults, ...settings };
+    const { startingSizePx, fontFamily, minSizePx, maxLines, oneWordLineCheck } = {
+      ...defaults,
+      ...settings,
+    };
 
     if (!text || !text.length) return text;
     if (!widthPx) return startingSizePx;
 
     // intentionally matching on \s and not on \b because we want non-whitespace word
     // boundaries to stay on the same line as the previous word.
-    const words = text.split(/\s+/g);
+    const words = text.trim().split(/\s+/g);
     const canvas = document.createElement('canvas');
     const canvasContext = canvas.getContext('2d');
+
+    let fontSizeMaximum = 1000;
+    if (oneWordLineCheck)
+      words.forEach((word) => {
+        if (word.length > 0) {
+          let i = 0;
+          do {
+            i += 1;
+            canvasContext.font = `${i}px ${fontFamily}`;
+          } while (canvasContext.measureText(word.trim()).width < widthPx);
+          if (i < fontSizeMaximum) fontSizeMaximum = i;
+        }
+      });
+
     fontSizeLoop: for (let fontSize = startingSizePx; fontSize > minSizePx; fontSize -= 1) {
           let numLines = 1;
           canvasContext.font = `${fontSize}px ${fontFamily}`;
@@ -45,7 +64,7 @@ function shrinkToFit(text, widthPx, settings) {
               textBuffer = words[wordIndex];
             }
           }
-          return fontSize;
+          return Math.min(fontSize, fontSizeMaximum);
         }
         // font size values > minSize exhausted.
         return minSizePx;
