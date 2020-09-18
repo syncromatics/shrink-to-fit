@@ -1,5 +1,3 @@
-'use strict';
-
 module.exports = shrinkToFit;
 
 /**
@@ -17,42 +15,38 @@ module.exports = shrinkToFit;
  * @returns {number} The font size (in px) to display.
  */
 function shrinkToFit(text, widthPx, settings) {
-    var defaults = {
+    const defaults = {
         maxLines: 2,
         fontFamily: "sans-serif",
         startingSizePx: 90,
         minSizePx: 30
     };
-    var settings = Object.assign({}, defaults, settings);
+    const { startingSizePx, fontFamily, minSizePx, maxLines } = { ...defaults, ...settings };
 
     if (!text || !text.length) return text;
-    if (!widthPx) return settings.startingSizePx;
+    if (!widthPx) return startingSizePx;
 
     // intentionally matching on \s and not on \b because we want non-whitespace word
     // boundaries to stay on the same line as the previous word.
-    var words = text.split(/\s+/g),
-        canvas = document.createElement('canvas'),
-        canvasContext = canvas.getContext('2d');
-    fontSizeLoop:
-    for (var fontSize = settings.startingSizePx; fontSize > settings.minSizePx; fontSize--) {
-        var numLines = 1;
-        canvasContext.font = fontSize + 'px ' + settings.fontFamily;
-        var textBuffer = "";
-        lineWrapLoop:
-        for (var wordIndex = 0; wordIndex < words.length; wordIndex++) {
-            textBuffer += " " + words[wordIndex];
-            var bufferWidth = canvasContext.measureText(textBuffer.trim()).width;
+    const words = text.split(/\s+/g);
+    const canvas = document.createElement('canvas');
+    const canvasContext = canvas.getContext('2d');
+    fontSizeLoop: for (let fontSize = startingSizePx; fontSize > minSizePx; fontSize -= 1) {
+          let numLines = 1;
+          canvasContext.font = `${fontSize}px ${fontFamily}`;
+          let textBuffer = '';
+          for (let wordIndex = 0; wordIndex < words.length; wordIndex += 1) {
+            textBuffer += ` ${words[wordIndex]}`;
+            const bufferWidth = canvasContext.measureText(textBuffer.trim()).width;
             if (bufferWidth > widthPx) {
-                numLines++;
-                if (numLines > settings.maxLines) {
-                    continue fontSizeLoop;
-                }
-                // wrap this word to the next line since it didn't fit.
-                textBuffer = words[wordIndex];
+              numLines += 1;
+              if (numLines > maxLines) continue fontSizeLoop;
+              // wrap this word to the next line since it didn't fit.
+              textBuffer = words[wordIndex];
             }
+          }
+          return fontSize;
         }
-        return fontSize;
-    }
-    // font size values > minSize exhausted.
-    return settings.minSizePx;
+        // font size values > minSize exhausted.
+        return minSizePx;
 }
